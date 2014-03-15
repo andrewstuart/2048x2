@@ -74,9 +74,11 @@ angular.module('2048App')
           return best;
         },
         set: function(newScore) {
-          best = newScore;
-          storage.setItem('best', best);
-          return best;
+          if(newScore > best) {
+            best = newScore;
+            storage.setItem('best', best);
+            return best;
+          }
         }
       });
     }

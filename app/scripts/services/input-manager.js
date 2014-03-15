@@ -49,7 +49,6 @@ angular.module('2048App')
         if (direction) {
           event.preventDefault();
           emit("move", direction);
-
         }
 
         if (event.which === 32) {

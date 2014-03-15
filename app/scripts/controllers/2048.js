@@ -2,6 +2,7 @@
 
 angular.module('2048App')
 .controller('2048Ctrl', ['$scope', '$http', '$window', 'InputManager', 'ScoreManager', 'Grid', 'Tile', function ($scope, $http, $window, InputManager, ScoreManager, Grid, Tile) {
+  window.requestAnimationFrame(function() {
 
   $scope.manager = ScoreManager;
   $scope.over = false;
@@ -55,6 +56,7 @@ angular.module('2048App')
   }
 
   function restart() {
+    Tile.clearList();
     $scope.message = undefined;
     setup();
   }
@@ -85,6 +87,7 @@ angular.module('2048App')
 
             // Update the score
             ScoreManager.score += tile.value;
+            ScoreManager.best = ScoreManager.score;
 
             // The mighty 2048 tile
             if (tile.value === 2048) {
@@ -108,12 +111,13 @@ angular.module('2048App')
     }
   }
 
-  InputManager.on('move', move);
+  InputManager.on('move', function(direction) {move(direction)});
   InputManager.on('restart', restart);
   InputManager.on('keepPlaying', $scope.keepPlaying);
 
   // Keep playing after winning
   $scope.keepPlaying = function () {
+    Tile.clearList();
     $scope.over = false;
   };
 
@@ -157,4 +161,5 @@ angular.module('2048App')
     return false;
   }
 
+  });
 }]);

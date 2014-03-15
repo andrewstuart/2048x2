@@ -9,12 +9,16 @@ angular.module('2048App')
           '</div>' +
         '</div>' +
         '<div class="tile-container">' +
-          '<div ng-repeat="tile in tiles" class="tile tile-{{tile.value}} tile-position-{{tile.y}}-{{tile.x}}">' +
+          '<div ng-repeat="tile in tiles" class="tile tile-new tile-{{tile.value}} tile-position-{{tile.x + 1}}-{{tile.y + 1}}">' +
           '<div class="tile-inner">{{tile.value}}</div>' +
         '</div>',
       restrict: 'E',
       link: function postLink(scope, element, attrs) {
         scope.tiles = Tile.list;
+
+        scope.$watch('tiles', function() {
+          console.log(scope.tiles);
+        }, true);
       }
     };
   }]);
