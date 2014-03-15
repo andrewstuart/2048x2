@@ -25,6 +25,10 @@ angular.module('2048App', [
         controller: 'SettingsCtrl',
         authenticate: true
       })
+      .when('/2048', {
+        templateUrl: 'partials/2048',
+        controller: '2048Ctrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
