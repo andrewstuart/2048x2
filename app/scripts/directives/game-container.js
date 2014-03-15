@@ -1,11 +1,8 @@
 'use strict';
 
 angular.module('2048App')
-  .directive('gameContainer', ['Actuator', 'InputManager', function (Actuator, InputManager) {
+  .directive('gameContainer', ['InputManager', function (InputManager) {
     return {
-      controller: ['$scope', function($scope) {
-        $scope.Actuator = Actuator;
-      }],
       template: '<div class="game-container">' +
                   '<div class="game-message">' +
                     '<p></p>' +
@@ -20,8 +17,9 @@ angular.module('2048App')
                 '</div>',
       restrict: 'E',
       link: function postLink(scope, element, attrs) {
-        new Actuator(element);
-        new InputManager.get('keyboard')(element);
+        if(attrs['game-user']) {
+          InputManager.attachTouch(element);
+        }
       }
     };
   }]);
