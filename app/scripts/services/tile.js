@@ -3,22 +3,36 @@
 angular.module('2048App')
   .service('Tile', function () {
     function Tile(position, value) {
-      this.x                = position.x;
-      this.y                = position.y;
-      this.value            = value || 2;
+      var tile = this;
+      tile.x = position.x;
+      tile.y = position.y;
 
-      this.previousPosition = null;
-      this.mergedFrom       = null; // Tracks tiles that merged together
+      var events = {};
+
+      tile.on = function(event, cb) {
+        events[event] = events[event] || [];
+        events[event].push(cb);
+      });
+
+      function emit(event, data) {
+        events[event] = events[event] || [];
+        events[event].forEach(function(cb) {
+          cb(data);
+        });
+      }
+
+      tile.value = value || Math.random() < 0.9 ? 2 : 4;
+
+      tile.previousPosition = null;
+      tile.mergedFrom = []; // Tracks tiles that merged together
+
+      tile.move = function (position) {
+        tile.previousPosition = { x: tile.x, y: tile.y };
+
+        tile.x = position.x;
+        tile.y = position.y;
+      };
     }
-
-    Tile.prototype.savePosition = function () {
-      this.previousPosition = { x: this.x, y: this.y };
-    };
-
-    Tile.prototype.updatePosition = function (position) {
-      this.x = position.x;
-      this.y = position.y;
-    };
 
     return Tile;
   });
