@@ -1,91 +1,72 @@
 'use strict';
 
 angular.module('2048App')
-  .service('Grid', function () {
+  .service('Grid', ['Tile', function (Tile) {
     function Grid(size) {
-      this.size = size;
+      var grid = this;
 
-      this.cells = [];
+      grid.cells = [];
 
-      this.build();
+      var id = 0;
+
+      function build() {
+        for (var x = 0; x < size; x++) {
+          var row = grid.cells[x] = [];
+
+          for (var y = 0; y < size; y++) {
+            row.push({id: id++, tile: null});
+          }
+        }
+      }
+
+      grid.withinBounds = function(position) {
+        return position.x >= 0 && position.x < size && position.y >= 0 && position.y < size;
+      };
+
+      grid.cellContent = function (cell) {
+        if (grid.withinBounds(cell)) {
+          return grid.cells[cell.x][cell.y].tile;
+        } else {
+          return null;
+        }
+      };
+
+      grid.addTile = function() {
+        //Get available cells
+        var openCells = [];
+        for (var x = 0; x < size; x++) {
+          for (var y = 0; y < size; y++) {
+            if(!grid.cellContent({x: x, y: y})) {
+              openCells.push({x: x, y: y});
+            }
+          }
+        }
+
+        if(openCells.length) {
+          var randomCell = openCells[Math.floor(Math.random() * openCells.length)];
+          var newTile = Tile.get(randomCell);
+
+          newTile.on('move', function(newCell) {
+            if(newTile.x && newTile.y)
+              grid.cells[newTile.x][newTile.y].tile = null;
+
+            grid.cells[newCell.x][newCell.y].tile = newTile;
+          });
+
+          newTile.on('remove', function() {
+            grid.cells[newTile.x][newTile.y].tile = null;
+          });
+        } else {
+          return false;
+        }
+      };
+
+      build();
     }
 
-    // Build a grid of the specified size
-    Grid.prototype.build = function () {
-      for (var x = 0; x < this.size; x++) {
-        var row = this.cells[x] = [];
-
-        for (var y = 0; y < this.size; y++) {
-          row.push(null);
-        }
+    return {
+      get: function(size) {
+        return new Grid(size);
       }
     };
-
-    // Find the first available random position
-    Grid.prototype.randomAvailableCell = function () {
-      var cells = this.availableCells();
-
-      if (cells.length) {
-        return cells[Math.floor(Math.random() * cells.length)];
-      }
-    };
-
-    Grid.prototype.availableCells = function () {
-      var cells = [];
-
-      this.eachCell(function (x, y, tile) {
-        if (!tile) {
-          cells.push({ x: x, y: y });
-        }
-      });
-
-      return cells;
-    };
-
-    // Call callback for every cell
-    Grid.prototype.eachCell = function (callback) {
-      for (var x = 0; x < this.size; x++) {
-        for (var y = 0; y < this.size; y++) {
-          callback(x, y, this.cells[x][y]);
-        }
-      }
-    };
-
-    // Check if there are any cells available
-    Grid.prototype.cellsAvailable = function () {
-      return !!this.availableCells().length;
-    };
-
-    // Check if the specified cell is taken
-    Grid.prototype.cellAvailable = function (cell) {
-      return !this.cellOccupied(cell);
-    };
-
-    Grid.prototype.cellOccupied = function (cell) {
-      return !!this.cellContent(cell);
-    };
-
-    Grid.prototype.cellContent = function (cell) {
-      if (this.withinBounds(cell)) {
-        return this.cells[cell.x][cell.y];
-      } else {
-        return null;
-      }
-    };
-
-    // Inserts a tile at its position
-    Grid.prototype.insertTile = function (tile) {
-      this.cells[tile.x][tile.y] = tile;
-    };
-
-    Grid.prototype.removeTile = function (tile) {
-      this.cells[tile.x][tile.y] = null;
-    };
-
-    Grid.prototype.withinBounds = function (position) {
-      return position.x >= 0 && position.x < this.size &&
-        position.y >= 0 && position.y < this.size;
-    };
-
-    return Grid;
-  });
+  }]);
