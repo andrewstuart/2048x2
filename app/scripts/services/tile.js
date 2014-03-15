@@ -2,6 +2,7 @@
 
 angular.module('2048App')
   .service('Tile', ['$timeout', function ($timeout) {
+    var list = [];
     function Tile(position, value) {
       var tile = this;
       var events = {};
@@ -46,11 +47,18 @@ angular.module('2048App')
       $timeout(function() {
         tile.move(position);
       });
+      list.push(tile);
     }
 
     return {
       get: function(pos, val) {
         return new Tile(pos, val);
+      },
+      list: list,
+      clearList: function() {
+        while(list.length) {
+          list.pop();
+        }
       }
     };
   }]);
