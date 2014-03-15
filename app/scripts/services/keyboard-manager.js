@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('2048App')
-  .service('KeyboardManager', function KeyboardManager() {
+  .service('KeyboardManager', function () {
     function KeyboardInputManager() {
       this.events = {};
 
@@ -107,5 +107,5 @@ angular.module('2048App')
       this.emit("keepPlaying");
     };
 
-    return new KeyboardInputManager();
+    return {KeyboardManager: KeyboardInputManager};
   });
