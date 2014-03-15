@@ -87,5 +87,5 @@ angular.module('2048App')
         position.y >= 0 && position.y < this.size;
     };
 
-    return {Grid: Grid};
+    return Grid;
   });

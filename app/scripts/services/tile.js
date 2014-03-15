@@ -20,5 +20,5 @@ angular.module('2048App')
       this.y = position.y;
     };
 
-    return {Tile: Tile};
+    return Tile;
   });
