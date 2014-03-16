@@ -46,7 +46,7 @@ angular.module('2048App')
 
       if (!modifiers) {
 
-        if (direction) {
+        if (direction !== undefined) {
           event.preventDefault();
           emit("move", direction);
         }
