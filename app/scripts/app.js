@@ -9,8 +9,9 @@ angular.module('2048App', [
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'partials/main',
-        controller: 'MainCtrl'
+        redirectTo: '/2048'
+        //templateUrl: 'partials/main',
+        //controller: 'MainCtrl'
       })
       .when('/login', {
         templateUrl: 'partials/login',
@@ -30,11 +31,11 @@ angular.module('2048App', [
         controller: '2048Ctrl'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/2048'
       });
-      
+
     $locationProvider.html5Mode(true);
-      
+
     // Intercept 401s and redirect you to login
     $httpProvider.interceptors.push(['$q', '$location', function($q, $location) {
       return {
@@ -54,7 +55,7 @@ angular.module('2048App', [
 
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$routeChangeStart', function (event, next) {
-      
+
       if (next.authenticate && !Auth.isLoggedIn()) {
         $location.path('/login');
       }

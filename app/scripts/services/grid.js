@@ -44,6 +44,7 @@ angular.module('2048App')
 
         if(openCells.length) {
           var randomCell = openCells[Math.floor(Math.random() * openCells.length)];
+          console.log(randomCell.x, randomCell.y);
           var newTile = Tile.get(randomCell);
 
           newTile.on('move', function(newCell) {

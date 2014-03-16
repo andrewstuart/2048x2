@@ -25,22 +25,6 @@ angular.module('2048App')
     return map[direction];
   }
 
-  // Build a list of positions to traverse in the right order
-  function buildTraversals (vector) {
-    var traversals = { x: [], y: [] };
-
-    for (var pos = 0; pos < size; pos++) {
-      traversals.x.push(pos);
-      traversals.y.push(pos);
-    }
-
-    // Always traverse from the farthest cell in the chosen direction
-    if (vector.x === 1) traversals.x = traversals.x.reverse();
-    if (vector.y === 1) traversals.y = traversals.y.reverse();
-
-    return traversals;
-  }
-
   // Set up the game
   function setup() {
     grid = $scope.grid = Grid.get(size);
@@ -59,6 +43,21 @@ angular.module('2048App')
     Tile.clearList();
     $scope.message = undefined;
     setup();
+  }
+
+  // Build a list of positions to traverse in the right order
+  function buildTraversals (vector) {
+    var traversals = { x: [], y: [] };
+
+    for (var pos = 0; pos < size; pos++) {
+      traversals.x.push(vector.x === 1 ? size - pos : pos);
+      traversals.y.push(vector.x === 1 ? size - pos : pos);
+    }
+    // Always traverse from the farthest cell in the chosen direction
+    if (vector.x === 1) traversals.x = traversals.x.reverse();
+    if (vector.y === 1) traversals.y = traversals.y.reverse();
+
+    return traversals;
   }
 
 

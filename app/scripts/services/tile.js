@@ -25,10 +25,9 @@ angular.module('2048App')
       tile.mergedFrom = []; // Tracks tiles that merged together
 
       tile.move = function (position) {
-        tile.previousPosition = { x: tile.x, y: tile.y };
-
         tile.emit('move', position);
 
+        tile.previousPosition = { x: tile.x, y: tile.y };
         tile.x = position.x;
         tile.y = position.y;
       };
