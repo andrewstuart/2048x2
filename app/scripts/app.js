@@ -4,6 +4,7 @@ angular.module('2048App', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
+  'AngularSocket',
   'ngRoute'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
