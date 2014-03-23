@@ -4,15 +4,6 @@ var a;
 angular.module('2048App')
   .service('Grid', ['Tile', 'AngularSocket', function (Tile, Socket) {
 
-    console.log(Socket);
-    a = Socket.get('foo', 'ws://localhost:12345/echo');
-
-    a.emit('yo').then(function(res) {
-      console.log('response');
-      console.log(res);
-    });
-    
-
     function Grid(size) {
       var grid = this;
 

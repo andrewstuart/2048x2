@@ -3,7 +3,11 @@
 angular.module('2048App')
   .directive('gameContainer', ['InputManager', function (InputManager) {
     return {
-      template: '<div class="game-container">' +
+      template: '<div class="scores-container">' +
+          '<div class="score-container">{{grid.Score}}</div>' +
+          '<div class="best-container">{{manager.best}}</div>' +
+        '</div>' +
+        '<div class="game-container">' +
                   '<div class="game-message">' +
                     '<p></p>' +
                     '<div class="lower">' +
@@ -12,8 +16,6 @@ angular.module('2048App')
                     '</div>' +
                   '</div>' +
                   '<game-grid></game-grid>' +
-                  '<div class="tile-container">' +
-                  '</div>' +
                 '</div>',
       restrict: 'E',
       link: function postLink(scope, element, attrs) {
