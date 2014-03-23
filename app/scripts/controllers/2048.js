@@ -11,6 +11,10 @@ angular.module('2048App')
 
   var sock = AngularSocket.get('2048', 'ws://localhost:12345/game');
 
+  sock.on('grid', function(data) {
+    $scope.grid = data;
+  });
+
   // Set up the game
   function setup() {
     grid = $scope.grid = Grid.get(4);

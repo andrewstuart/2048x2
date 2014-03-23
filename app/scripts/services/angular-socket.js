@@ -49,13 +49,13 @@ angular.module('AngularSocket',[])
             $rootScope.$apply(function() {
               try {
                 data = JSON.parse(event.data);
-                if(data.name && data.data) {
-                  emitFromRemote(data.name, data.data);
+                if(data.Name && data.Data || data.name && data.data) {
+                  emitFromRemote(data.Name, data.Data);
                 } else {
-                  emitFromRemote('_event', event.data);
+                  emitFromRemote('_event', event);
                 }
               } catch (parseError) {
-                emitFromRemote('_event', event.data);
+                emitFromRemote('_event', event);
               }
             });
           };
