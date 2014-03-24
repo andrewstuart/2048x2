@@ -15,6 +15,10 @@ angular.module('2048App')
     $scope.grid = data;
   });
 
+  $scope.restart = function() {
+    sock.emit('move', {direction: -1})
+  };
+
   // Set up the game
   function setup() {
     grid = $scope.grid = Grid.get(4);
@@ -40,7 +44,6 @@ angular.module('2048App')
   InputManager.on('move', function(direction) {
     sock.emit('move', {direction: direction}).then(function(data) {
       $scope.grid = data;
-      $scope.info.push(data);
     });
   });
 

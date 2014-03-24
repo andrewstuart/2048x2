@@ -8,7 +8,7 @@ angular.module('2048App')
           '<div class="best-container">{{manager.best}}</div>' +
         '</div>' +
         '<div class="game-container">' +
-                  '<div class="game-message">' +
+                  '<div ng-if="grid.GameOver" class="game-message">' +
                     '<p></p>' +
                     '<div class="lower">' +
                       '<a class="keep-playing-button" ng-click="keepGoing()">Keep going</a>' +
